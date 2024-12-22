@@ -34,13 +34,39 @@ const getHumanChoice = () => {
     }
 }
 
+const winningConditions = {
+    rock: 'scissors',
+    paper: 'rock', 
+    scissors: 'paper'
+};
+
 const playRound = (humanChoice, computerChoice) => {
     humanChoice = getHumanChoice();
     computerChoice = getComputerChoice();
-
-   
-
+    if(winningConditions[humanChoice] === computerChoice) {
+        alert(`You win! ${humanChoice} beats ${computerChoice}`);
+        humanScore++;
+        computerScore--;
+        console.log(`Your score is ${humanScore}\nComputer score is ${computerScore}`);
+    } else if(winningConditions[computerChoice] === humanChoice) {
+        alert(`You lose! ${computerChoice} beats ${humanChoice}`);
+        computerScore++;
+        humanScore--;
+        console.log(`Your score is ${humanScore}\nComputer score is ${computerScore}`);
+    } else {
+        alert("It's a tie.");
+        console.log(`Your score is ${humanScore}\nComputer score is ${computerScore}`);
+    }
 }
+
+const playGame = () => {
+    for(let i = 0; i < 5; i++) {
+        playRound();
+    }
+}
+
+playGame();
+
 
 // console.log(getHumanChoice());
 
