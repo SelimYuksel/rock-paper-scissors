@@ -59,13 +59,7 @@ const playRound = (humanChoice, computerChoice) => {
     }
 }
 
-const playGame = () => {
-    for(let i = 0; i < 5; i++) {
-        playRound();
-    }
-}
 
-playGame();
 
 
 // console.log(getHumanChoice());
