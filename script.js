@@ -1,3 +1,6 @@
+const buttons = document.querySelectorAll(".rps-buttons");
+const results = document.querySelector("#results");
+
 let humanScore = 0;
 let computerScore = 0;
 
@@ -16,22 +19,31 @@ const getComputerChoice = () => {
 
 // console.log(getComputerChoice());
 
-const getHumanChoice = () => {
-    const userInput = prompt("Rock, Paper, Scissors?");
-    // Ask user for an input
-    const modifiedInput = userInput.toLowerCase();
-    // Convert user input to lowercase 
-    if(modifiedInput === "") {
-        alert("Please enter something.");
-        // Check if user input is empty
-    } else if(modifiedInput !== "rock" && modifiedInput !== "paper" && modifiedInput !== "scissors") {
-        alert("Please enter a valid response.");
-        // Check if user input is valid ie "Rock or paper or scissors"
-    }
-    else {
-        return modifiedInput;
-        // return the input
-    }
+// const getHumanChoice = () => {
+//     const userInput = prompt("Rock, Paper, Scissors?");
+//     // Ask user for an input
+//     const modifiedInput = userInput.toLowerCase();
+//     // Convert user input to lowercase 
+//     if(modifiedInput === "") {
+//         alert("Please enter something.");
+//         // Check if user input is empty
+//     } else if(modifiedInput !== "rock" && modifiedInput !== "paper" && modifiedInput !== "scissors") {
+//         alert("Please enter a valid response.");
+//         // Check if user input is valid ie "Rock or paper or scissors"
+//     }
+//     else {
+//         return modifiedInput;
+//         // return the input
+//     }
+// }
+
+const restartGame = () => {
+    results.textContent = "";
+    humanScore = 0;
+    computerScore = 0;
+    buttons.forEach(btn => {
+        btn.disabled = false;
+    })
 }
 
 const winningConditions = {
@@ -40,24 +52,56 @@ const winningConditions = {
     scissors: 'paper'
 };
 
+const para = document.createElement("p");
+para.classList.add("result-para");
+results.appendChild(para);
+    
+const scorePara = document.createElement("p");
+scorePara.classList.add("score-para");
+results.appendChild(scorePara);
+
 const playRound = (humanChoice, computerChoice) => {
-    humanChoice = getHumanChoice();
     computerChoice = getComputerChoice();
+
     if(winningConditions[humanChoice] === computerChoice) {
         alert(`You win! ${humanChoice} beats ${computerChoice}`);
         humanScore++;
-        computerScore--;
-        console.log(`Your score is ${humanScore}\nComputer score is ${computerScore}`);
     } else if(winningConditions[computerChoice] === humanChoice) {
         alert(`You lose! ${computerChoice} beats ${humanChoice}`);
         computerScore++;
-        humanScore--;
-        console.log(`Your score is ${humanScore}\nComputer score is ${computerScore}`);
     } else {
         alert("It's a tie.");
-        console.log(`Your score is ${humanScore}\nComputer score is ${computerScore}`);
+    }
+    
+    if(humanScore === 5 || computerScore === 5) {
+        para.textContent = `Your score ${humanScore} : Computer score ${computerScore}`;
+        const restartBtn = document.createElement("button");
+        restartBtn.classList.add("restart-btn");
+        restartBtn.textContent = "Restart";
+        results.appendChild(restartBtn);
+        buttons.forEach(button => {
+            button.disabled = true;
+        })
+        restartBtn.addEventListener("click", restartGame);
+    }
+
+    if(humanScore === 5) {
+        scorePara.textContent = "You win :)";
+    }
+    if(computerScore === 5) {
+        scorePara.textContent = "You lose :(";
     }
 }
+
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        playRound(button.id, getComputerChoice);
+    })
+});
+
+
+
+
 
 
 
